@@ -2,6 +2,7 @@ package fakes;
 
 public class FakeUserValidator extends UserValidator {
 
+    private final boolean isExisting;
     private boolean isValid;    //injection sagt man dem, von aussen bestimmen was passieren soll
 
     public  FakeUserValidator(boolean isValid, boolean isExisting){
@@ -12,5 +13,9 @@ public class FakeUserValidator extends UserValidator {
     @Override
     public boolean isValidUsername(String username){
         return isValid;
+    }
+    @Override
+    public boolean doesUsernameExist(String username){
+        return isExisting;
     }
 }

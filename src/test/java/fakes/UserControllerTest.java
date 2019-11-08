@@ -4,29 +4,53 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+
 class UserControllerTest {
-    private static Database db = FileDatabase.getInstance();
-    // Pro getestete Methode gibt es eine inner class (Hier für UserController.create)
+    //private static Database db = FileDatabase.getInstance();
+    // Pro getestete Methode gibt es eine inner class (Hier für UserController.create) hier wird das anders gelöst
     @Nested
     class create{
 
         // --- Testing with Fakes ---
-
+// test dauert 5s  deshab wars lang, Fakeuservalidator erstellt da gibt es keine 5s test
         @Test
-        void withValidInexistingUsername_returnsOK_NO_FAKE(){
-            UserController ctrl = new UserController();
+        void withValidInexistingUsername_returnsOK_NO_FAKE() {
+            UserController userController = new UserController(new FakeUserValidator(true, false));
+            User user = new User("kalua");
+
+            Message result = userController.create(new User("Hans"));
+
+            Assertions.assertEquals(Message.Status.OK, result.status);
+        }
+
+        //gleicher test wie oben einfach mockito
+        @Test
+        void withValidInexistingUsername_returnsOK_MOCKITO() {
+            UserValidator userValidator = mock(UserValidator.class);
+            doReturn(true).when(userValidator).isValidUsername(anyString());
+            doReturn(false).when(userValidator).doesUsernameExist(anyString());
+
+            UserController userController = new UserController(userValidator);
+
+            Message result = userController.create(new User("Hans"));
+            Assertions.assertEquals(Message.Status.OK, result.status);
+        }
+
+/*        @Test
+        void withValidInexistingUsername_returnsNOT_OK_FAKE(){
+            UserController ctrl = new UserController(new FakeUserValidator(false, false));
             User user = new User("kalua");
 
             Message result = ctrl.create(user);
 
             Assertions.assertEquals(result.status, Message.Status.OK);
-        }
 
-        @Test
-        void withValidInexistingUsername_returnsOK_FAKE(){
-            UserController userController = new UserController();
+        }*/
 
-        }
+
 
    /*     @Test
    // I DON'T UNDERSTAND THIS ONE :@
@@ -61,33 +85,6 @@ class UserControllerTest {
 
         // --- Testing Exceptions ---
 
-        @Test
-        void TRY_CATCH_withNullUser_throwsIllegalArgumentExc(){
-            try{
-                UserController ctrl = new UserController();
-                ctrl.create(null);
-                Assertions.fail("No IllegalArgumentExc was thrown");
-            }catch(IllegalArgumentException ex){
-                // Optional: Test message
-                Assertions.assertEquals("user required", ex.getMessage());
-            }
-        }
 
-        @Test
-        void EXPECTED_withNullUser_throwsIllegalArgumentExc(){
-            Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                UserController ctrl = new UserController();
-                ctrl.create(null);
-            });
-        }
-
-        @Test
-        void RULE_withNullUser_throwsIllegalArgumentExc(){
-            Exception thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                UserController ctrl = new UserController();
-                ctrl.create(null);
-            });
-            Assertions.assertTrue(thrown.getMessage().contains("required"));
-        }
     }
 }
