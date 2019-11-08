@@ -9,13 +9,13 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
 class UserControllerTest {
-    //private static Database db = FileDatabase.getInstance();
-    // Pro getestete Methode gibt es eine inner class (Hier für UserController.create) hier wird das anders gelöst
-    @Nested
-    class create{
 
-        // --- Testing with Fakes ---
-// test dauert 5s  deshab wars lang, Fakeuservalidator erstellt da gibt es keine 5s test
+  // Pro getestete Methode gibt es eine inner class (Hier für UserController.create)
+  @Nested
+  class create {
+
+    // --- Testing with Fakes ---
+
         @Test
         void withValidInexistingUsername_returnsOK_NO_FAKE() {
             UserController userController = new UserController(new FakeUserValidator(true, false));
@@ -83,8 +83,12 @@ class UserControllerTest {
         }
 */
 
-        // --- Testing Exceptions ---
+    @Test
+    void withValidInexitingUserName_addUserToDB__FAKE() {
+      // TODO
+    }
 
 
     }
+  }
 }
