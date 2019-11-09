@@ -19,7 +19,6 @@ class UserControllerTest {
         @Test
         void withValidInexistingUsername_returnsOK_NO_FAKE() {
             UserController userController = new UserController(new FakeUserValidator(true, false));
-            User user = new User("kalua");
 
             Message result = userController.create(new User("Hans"));
 
@@ -84,11 +83,11 @@ class UserControllerTest {
 */
 
     @Test
-    void withValidInexitingUserName_addUserToDB__FAKE() {
+    void withValidInexitingUserName_addsUserToDB__FAKE() { // Hausaufgaben
       // TODO
     }
 
 
-    }
+
   }
 }
