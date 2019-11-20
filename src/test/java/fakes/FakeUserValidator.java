@@ -5,7 +5,7 @@ public class FakeUserValidator extends UserValidator {
     private final boolean isExisting;
     private boolean isValid;    //injection sagt man dem, von aussen bestimmen was passieren soll
 
-    public  FakeUserValidator(boolean isValid, boolean isExisting){
+    public FakeUserValidator(boolean isValid, boolean isExisting){
         this.isValid=isValid;
         this.isExisting=isExisting;
     }
@@ -15,7 +15,5 @@ public class FakeUserValidator extends UserValidator {
         return isValid;
     }
     @Override
-    public boolean doesUsernameExist(String username){
-        return isExisting;
-    }
+    public boolean doesUsernameExist(String username){ return isExisting; }
 }
